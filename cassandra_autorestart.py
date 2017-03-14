@@ -123,12 +123,13 @@ def checkWriteAccess():
             print "Could not read or write to file:", file_name
             print "Potential I/O Error: Please check"
             status.append("NO")
+            break
 
 
-        if "NO" in status:
-            return "NO"
-        else:
-            return "YES"
+    if "NO" in status:
+        return "NO"
+    else:
+        return "YES"
            
 
 
