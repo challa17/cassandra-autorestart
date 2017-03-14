@@ -105,23 +105,31 @@ def isCassandraUp():
 
 
 def checkWriteAccess():
-    # Check all the data directories that cassandra uses
+    print "Checking read/write access to file system"
     for i in range(1, 3):
-        # print i
-        # file_name="/data" + str(i) + "/data/" + str(i) + ".txt"
-        print "Checking read/write access to file system"
-        file_name = "/opt/app/dse-data/data/" + str(i) + ".txt"
-        #print file_name
+        ##Uncomment file_name for production
+        file_name="/opt/app/dse-data/data" + str(i) + "/data/" + str(i) + ".txt"
+        status = []
         try:
+            print "Checking FileName: ", file_name
             f = open(file_name, 'w+')
             f.write(str(i))
             f.read()
             f.close()
-            return "YES"
+            os.remove(file_name)
+            status.append("YES")
+            continue
         except IOError:
             print "Could not read or write to file:", file_name
             print "Potential I/O Error: Please check"
+            status.append("NO")
+
+
+        if "NO" in status:
             return "NO"
+        else:
+            return "YES"
+           
 
 
 
